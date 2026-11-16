@@ -1,0 +1,10 @@
+# Installed dependencies (recreate with `npm install`)
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
