@@ -64,12 +64,17 @@
             materialInput = document.getElementById("lootName").value;
             //case insensitive trick by making every thing a lowercase letter
             materialInput = materialInput.toLowerCase();
-            //minimum of a single input.
-            if(materialInput == 'done' || materialInput == ''){
+            //minimum of a single input and cannot accept an empty name
+            if(materialInput == 'done' && loot.length == 0){
+                document.getElementById("output1").innerText = 'Must insert at least 1 item';
+                results.style.visibility = 'hidden';
+                return;
+            }else if (materialInput == '') {
+                document.getElementById("output1").innerText = 'Cannot allow an empty item name';
                 if(loot.length == 0){
-                    document.getElementById("output1").innerText = 'Must insert at least 1 item';
-                    return;
+                    results.style.visibility = 'hidden';
                 }
+                return;   
             }
         
             if(materialInput != 'done' && materialInput != ''){
