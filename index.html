@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Maxwell Edegbe">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Quest Loot</title>
+  </head>
+  <body>
+    <h1>Quest Loot</h1>
+    <!-- div for simplicity -->
+    <div class="parent">
+        <div class="child">
+            <label for="lootName">Loot Item Name</label>
+            <input type="text" id="lootName" name="lootName">
+            <label for="lootValue">Loot Item Value</label>
+            <input type="text" id="lootValue" name="lootValue">
+            <button type="button" id="addLoot">Add Loot</button>
+            <p id="output1"></p>
+        </div>
+        
+        <div class="child" id="results">
+            <h2>Loot Collected</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody id="output2"></tbody>
+            </table>
+            <h2>Total Value</h2>
+            <p id="output3"></p>
+        </div>
+    </div>
+
+    <script>
+        // 
+        const button = document.getElementById('addLoot');
+        const results = document.getElementById('results');
+        // this is to get rid of the results unless it's submitted.
+        results.style.visibility = 'hidden';
+        
+        
+        
+        // loot array is absolutely neccessary to be outside the funciton to preserve state
+        const loot = [];
+        let materialInput = '';   
+        let text = '';
+        // calls the function upon click
+        button.addEventListener('click', eventHandler);
+
+        function eventHandler(){ 
+            // brings back the results div
+            results.style.visibility = 'visible';
+            const tbody = document.getElementById("output2");
+            // clear old rows so each click rebuilds the table instead of duplicating rows
+            tbody.replaceChildren();
+                  
+            materialInput = document.getElementById("lootName").value;
+            //case insensitive trick by making every thing a lowercase letter
+            materialInput = materialInput.toLowerCase();
+            //minimum of a single input.
+            if(materialInput == 'done' || materialInput == ''){
+                if(loot.length == 0){
+                    document.getElementById("output1").innerText = 'Must insert at least 1 item';
+                    return;
+                }
+            }
+        
+            if(materialInput != 'done' && materialInput != ''){
+                let valueInput = parseInt(document.getElementById("lootValue").value);
+                // checking if it's a valid number
+                while (isNaN(valueInput) || valueInput <= 0){
+                    document.getElementById("output1").innerText = "Please enter a valid positive number: ";
+                    return;
+                }
+                // make warning message empty
+                document.getElementById("output1").innerText = "";
+                //duplicate makes program check before inserting then adds to the sum necessity >>>>>>
+                let dupeCheck = false;
+                for(let i = 0; i<loot.length; i++){
+                    if(loot[i].name == materialInput){
+                        valueInput+=loot[i].value;
+                        loot[i] = { name: materialInput, value: valueInput }
+                        dupeCheck = true;
+                        break;
+                    }  
+                }
+                //if there isn't a duplicate it behaves regularly
+                if(dupeCheck == false){
+                    loot.push({ name: materialInput, value: valueInput });
+                    
+                }    
+                // sorting algorithm swaps places in a nested loop.
+                // iterates from left to right finding the highest value in each ith positon 
+                // must find the highest value in the subarray before swapping
+                for(let i = 0; i<loot.length-1; i++){
+                    
+                    for(let j = i+1; j<loot.length; j++){
+                        if(loot[i].value < loot[j].value){
+                            let temp = loot[i];
+                            let temp2 = loot[j];
+                            loot[j] = temp;
+                            loot[i] = temp2;
+                        }
+                    }
+                }
+                
+                let totalVal = 0;
+                console.log(JSON.stringify(loot));
+                for(let i = 0; i<loot.length; i++){
+                    // table elements being created dynamically
+                    const tr = document.createElement('tr')
+                    const td1 = document.createElement('td'); 
+                    const td2 = document.createElement('td');
+                    const td3 = document.createElement('td'); 
+                    td1.innerHTML = i+1;
+                    td2.innerHTML = loot[i].name;
+                    td3.innerHTML = loot[i].value;
+                    tr.append(td1,td2,td3);
+                    console.log(tr.innerHTML);
+                    tbody.append(tr);
+                   
+                    
+                    
+                    totalVal = totalVal + loot[i].value;
+                }
+                document.getElementById('output3').innerText = totalVal;
+                document.getElementById('lootName').value ='';
+                document.getElementById('lootValue').value ='';
+            }
+        }
+    </script>
+    <!-- Debugging reflections
+         What I noticed is that the major changes was being able to use see what values needed to stay in the function and 
+         the ones that couldn't stay in the function. Then finding out a way to one preserve previous order of the array
+         was a big challenge. I had a whole great difficulties in creating elements and appending them in a manner that
+         would be safe. I went through a lot of roadblocks especially when trying to make sure that i did not pass objects
+         as strings or vice versa. Then a lot of the transition from while use to an eventHandler that reacts when someone
+         clicks the submit button in the form. 
+    -->
+  </body>
+</html>

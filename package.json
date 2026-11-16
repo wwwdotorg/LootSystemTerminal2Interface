@@ -1,0 +1,16 @@
+{
+  "name": "lootsystemterminal2interface",
+  "version": "1.0.0",
+  "main": "quest_loot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node quest_loot.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
+}

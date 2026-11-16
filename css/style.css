@@ -1,0 +1,56 @@
+/* Basic page styling */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color:rgb(192, 245, 245);
+    background-blend-mode: multiply;
+}
+
+h1 {
+    text-align: center;
+}
+
+.child {
+    display: flex;
+    flex-direction: column;
+    margin: 10px, auto;
+    padding: 20px;
+    max-width: 1000px;
+    gap: 10px;
+
+}
+
+button, input[type ="text"]{
+    min-width: 350px;
+    min-height: 40px;
+}
+button{
+    background-color: rgb(196, 165, 210);
+}
+#output1 {
+    color:crimson
+}
+#results{
+    background-color: rgb(249, 249, 248);
+    min-width: 200px;
+    justify-self: center;
+}
+table{
+    font-size: 18px;
+    min-width: 500px;
+}
+td, tr{
+    text-align: center;
+    vertical-align: middle;
+}
+p,h2{
+    margin:auto;
+    font-weight: 200;
+}
